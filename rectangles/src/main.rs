@@ -22,6 +22,11 @@ fn main() {
     );
 
     println!(
+        "The area of the rectangle using a method is {} units",
+        rect2.area()
+    );
+
+    println!(
         "rect2's debug output is {:?}",
         rect2
     );
@@ -31,12 +36,37 @@ fn main() {
         rect2
     );
 
+    let rect3 = Rectangle { width: 25, height: 30 };
+    let rect4 = Rectangle { width: 50, height: 40 };
+
+    println!("Can rect2 hold rect3? {}", rect2.can_hold(&rect3));
+    println!("Can rect2 hold rect4? {}", rect2.can_hold(&rect4));
+
+    let _square = Rectangle::square(25);
+
 }
 
 #[derive(Debug)]
 struct Rectangle {
     width: u32,
     height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+
+    fn square(size: u32) -> Self {
+        Self {
+            width: size,
+            height: size,
+        }
+    }
 }
 
 fn naive_area(width: u32, height: u32) -> u32 {
