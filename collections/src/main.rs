@@ -1,3 +1,5 @@
+use std::char;
+
 fn main() {
     // Vectors
 
@@ -36,17 +38,22 @@ fn main() {
         *i += 50;
     }
 
+    #[derive(Debug)]
     enum SpreadsheetCell {
         Int(i32),
         Float(f64),
         Text(String),
     }
 
-    let _row = vec![
+    let row = vec![
         SpreadsheetCell::Int(3),
         SpreadsheetCell::Text(String::from("blue")),
         SpreadsheetCell::Float(10.12),
     ];
+
+    for item in row {
+        println!("{item:?}")
+    }
 
     // Hashmaps
 
@@ -84,5 +91,56 @@ fn main() {
     }
 
     println!("{:?}", map);
+    
+    // Exercises
+
+    // Exercise 1
+    let integers1 = vec![4, 6, 7, 2, 5, 6, 5, 2, 5, 5, 6];
+    let integers2 = vec![9, 2, 6, 6, 9, 1, 3, 1, 7, 1];
+
+    fn get_median(vector: &Vec<i32>) -> i32 {
+        let vector = vector.clone();
+        let length = vector.len();
+        
+        if length % 2 == 0 {
+            let median_entries = (length / 2, (length / 2) - 1);
+
+            vector[median_entries.0] + vector[median_entries.1] / 2
+
+        } else {
+            let median_entry = (length - 1) / 2;
+            vector[median_entry]
+        }
+    }
+
+    let median1 = get_median(&integers1);
+    let median2 = get_median(&integers2);
+
+    println!("The medians are {median1}, {median2}");
+
+    fn get_mode(vector: &Vec<i32>) -> i32 {
+        let mut map:HashMap<i32, i32> = HashMap::new();
+        
+        for item in vector {
+            let count = map.entry(*item).or_insert(0);
+            *count += 1;
+        }
+
+        // mode(item, count)
+        let mut mode = (0, 0);
+
+        for (item, count) in map {
+            if count > mode.1 {
+                mode = (item, count)
+            }
+        }
+
+        mode.0
+    }
+
+    let mode1 = get_mode(&integers1);
+    let mode2 = get_mode(&integers2);
+
+    println!("The modes are {mode1}, {mode2}");
 
 }
